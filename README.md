@@ -121,7 +121,7 @@ pillow-heif&gt;=0.13.0</code></pre>
 <h3>📥 Model Download</h3>
 <p>
   Download the required model weights file (<code>YashvirIntelligence.gguf</code>) from 
-  <a href="YOUR_HUGGINGFACE_OR_DRIVE_LINK_HERE">Hugging Face / Direct Link</a> 
+  <a href="DRIVE_LINK_HERE">Direct Link</a> 
   and place it inside the root directory alongside the executable.
 </p>
 
