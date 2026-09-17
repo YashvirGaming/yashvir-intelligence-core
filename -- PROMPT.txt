@@ -1,0 +1,1 @@
+Write a concise, modern Python script using `httpx` and `asyncio` to perform 3 concurrent HTTP GET requests and log their completion times. Format the output neatly with type hints and brief comments.
