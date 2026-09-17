@@ -99,14 +99,30 @@ THEMES = {
 
 
 def get_app_directory() -> Path:
-    if getattr(sys, "frozen", False):
+    """Returns the true directory where YashvirIntelligence.exe lives (where .gguf is located)."""
+    if getattr(sys, "frozen", False) or hasattr(sys, "__compiled__"):
+        # sys.argv[0] gives the actual location of the .exe on the user's disk
+        exe_path = Path(sys.argv[0]).resolve()
+        if exe_path.is_file():
+            return exe_path.parent
         return Path(sys.executable).resolve().parent
     return Path(__file__).resolve().parent
 
 
 def get_runtime_directory() -> Path:
+    """Returns the unpacked runtime path inside Nuitka onefile or local folder."""
+    # 1. Check Nuitka onefile temporary unpacked directory
     if hasattr(sys, "_MEIPASS"):
-        return Path(sys._MEIPASS) / "runtime"
+        onefile_runtime = Path(sys._MEIPASS) / "runtime"
+        if (onefile_runtime / "llama-server.exe").exists():
+            return onefile_runtime
+
+    # 2. Check local script execution path
+    script_runtime = Path(__file__).resolve().parent / "runtime"
+    if (script_runtime / "llama-server.exe").exists():
+        return script_runtime
+
+    # 3. Fallback to external runtime folder next to the EXE
     return get_app_directory() / "runtime"
 
 
@@ -597,7 +613,13 @@ def main():
         model_path = find_gguf_model()
         server_manager.start_server(model_path)
     except Exception as e:
-        print(f"Startup Error: {e}", file=sys.stderr)
+        import traceback
+        error_msg = f"Startup Failed!\n\nError: {e}\n\nTraceback:\n{traceback.format_exc()}"
+        print(error_msg, file=sys.stderr)
+        
+        from PySide6.QtWidgets import QMessageBox
+        QMessageBox.critical(None, "Yashvir Intelligence Core - Startup Error", error_msg)
+        
         server_manager.stop_server()
         sys.exit(1)
 
