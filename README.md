@@ -28,6 +28,27 @@
 
 <hr>
 
+<h2>📥 Download Required External Assets</h2>
+<p>
+  Due to GitHub's file size limits, the <code>runtime/</code> execution folder and the <code>YashvirIntelligence.gguf</code> model weights file are hosted externally on Google Drive. Download both packages below before launching or compiling:
+</p>
+
+<ul>
+  <li>
+    <b>📦 Download Runtime Engine (<code>runtime/</code> folder):</b><br>
+    <a href="https://drive.google.com/drive/folders/1ShYgzeFQ8npQV7XExJHpykWTDEehBq-u?usp=sharing" target="_blank">👉 Direct Google Drive Link (llama-server & CUDA DLLs)</a><br>
+    <i>Extract the downloaded <code>runtime</code> folder directly into the project root directory.</i>
+  </li>
+  <br>
+  <li>
+    <b>🧠 Download Model Weights (<code>YashvirIntelligence.gguf</code>):</b><br>
+    <a href="YOUR_GOOGLE_DRIVE_GGUF_LINK_HERE" target="_blank">👉 Direct Google Drive Link (8.2 GB GGUF Model)</a><br>
+    <i>Place the <code>YashvirIntelligence.gguf</code> file in the project root directory alongside <code>hacker_chat.py</code>.</i>
+  </li>
+</ul>
+
+<hr>
+
 <h2>🔥 Key Features</h2>
 <ul>
   <li><b>📦 Fully Portable Executable:</b> Runs natively without requiring Python, Pip, PySide6, or external model managers installed on the host machine.</li>
@@ -84,11 +105,11 @@
 
 <pre><code>YashvirIntelligence/
 ├── hacker_chat.py              # Main Application Entry Point
-├── YashvirIntelligence.gguf    # Model Weights Binary (8+ GB GGUF)
+├── YashvirIntelligence.gguf    # Model Weights Binary (Downloaded via Google Drive)
 ├── app_icon.ico                # High-Res Multi-Layer Icon
 ├── requirements.txt            # Pinned Dependencies
 ├── NuitkaBuilder.bat           # Automated Compiler Engine
-└── runtime/
+└── runtime/                    # Server Binaries (Downloaded via Google Drive)
     ├── llama-server.exe        # Native llama.cpp Server Executable
     ├── llama.dll               # Core LLM Engine Library
     ├── ggml.dll                # Tensor Library
@@ -117,13 +138,6 @@ pillow-heif&gt;=0.13.0</code></pre>
 <pre><code>NuitkaBuilder.bat</code></pre>
 
 <hr>
-
-<h3>📥 Model Download</h3>
-<p>
-  Download the required model weights file (<code>YashvirIntelligence.gguf</code>) from 
-  <a href="DRIVE_LINK_HERE">Direct Link</a> 
-  and place it inside the root directory alongside the executable.
-</p>
 
 <div align="center">
 
