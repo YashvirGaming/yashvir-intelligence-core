@@ -4,7 +4,7 @@ color 0A
 cls
 
 echo ============================================================
-echo   Detecting Hardware Capabilities...
+echo    Detecting Hardware Capabilities...
 echo ============================================================
 
 set THREADS=%NUMBER_OF_PROCESSORS%
@@ -13,7 +13,7 @@ echo [+] CPU Threads detected: %THREADS%
 
 echo.
 echo ============================================================
-echo   Checking Asset Dependencies...
+echo    Checking Asset Dependencies...
 echo ============================================================
 
 REM ICON RESOLUTION ENGINE
@@ -36,7 +36,7 @@ if not exist runtime\llama-server.exe (
 
 echo.
 echo ============================================================
-echo   Executing Nuitka 4.x Production Build Pipeline
+echo    Executing Nuitka 4.x Production Build Pipeline
 echo ============================================================
 
 python -m nuitka ^
@@ -46,12 +46,12 @@ python -m nuitka ^
     --assume-yes-for-downloads ^
     --output-dir=. ^
     --remove-output ^
-    --nofollow-import-to=tkinter ^
-    --nofollow-import-to=trio ^
-    --nofollow-import-to=unittest ^
     %ICON_FLAG% ^
     --include-data-dir=runtime=runtime ^
-    --windows-console-mode=disable ^
+    --include-package=httpx ^
+    --include-package=markdown ^
+    --include-package=pygments ^
+	--windows-console-mode=force ^
     --company-name="Yashvir Gaming" ^
     --product-name="Yashvir Intelligence Core" ^
     --file-description="Yashvir Intelligence Core Engine" ^
