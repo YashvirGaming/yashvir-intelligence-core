@@ -28,24 +28,47 @@
 
 <hr>
 
-<h2>📥 Download Required External Assets</h2>
+<h2>⚠️ CRITICAL: Required External Downloads (Must Read!)</h2>
 <p>
-  Due to GitHub's file size limits, the <code>runtime/</code> execution folder and the <code>YashvirIntelligence.gguf</code> model weights file are hosted externally on Google Drive. Download both packages below before launching or compiling:
+  Due to GitHub's file size restrictions, the <b><code>runtime/</code></b> binaries folder and the <b><code>YashvirIntelligence.gguf</code></b> model weights are <b>NOT</b> included directly in this repository. 
+  <br><br>
+  <b>The application WILL NOT RUN without these two components manually placed inside your <code>dist/hacker_chat.dist/</code> folder.</b>
 </p>
 
+<h3>📥 Download Links:</h3>
 <ul>
   <li>
     <b>📦 Download Runtime Engine (<code>runtime/</code> folder):</b><br>
-    <a href="https://drive.google.com/drive/folders/1ShYgzeFQ8npQV7XExJHpykWTDEehBq-u?usp=sharing" target="_blank">👉 Direct Google Drive Link (llama-server & CUDA DLLs)</a><br>
-    <i>Extract the downloaded <code>runtime</code> folder directly into the project root directory.</i>
+    <a href="https://drive.google.com/drive/folders/1ShYgzeFQ8npQV7XExJHpykWTDEehBq-u?usp=drive_link" target="_blank">👉 Direct Google Drive Link (llama-server & CUDA DLLs)</a>
   </li>
   <br>
   <li>
     <b>🧠 Download Model Weights (<code>YashvirIntelligence.gguf</code>):</b><br>
-    <a href="YOUR_GOOGLE_DRIVE_GGUF_LINK_HERE" target="_blank">👉 Direct Google Drive Link (8.2 GB GGUF Model)</a><br>
-    <i>Place the <code>YashvirIntelligence.gguf</code> file in the project root directory alongside <code>hacker_chat.py</code>.</i>
+    <a href="https://drive.google.com/file/d/1TMpQmH0Zx3uniqXoKQUw_IEHA1bbCgZN/view?usp=sharing" target="_blank">👉 Direct Google Drive Link (8.2 GB GGUF Model)</a>
   </li>
 </ul>
+
+<h3>⚙️ Quick Setup Instructions for End Users:</h3>
+<ol>
+  <li>Download the <b><code>runtime/</code></b> folder and place it directly inside <code>dist/hacker_chat.dist/</code>.</li>
+  <li>Download <b><code>YashvirIntelligence.gguf</code></b> and place it directly inside <code>dist/hacker_chat.dist/</code> alongside <code>YashvirIntelligence.exe</code>.</li>
+  <li>Launch <b><code>YashvirIntelligence.exe</code></b> to start using the app!</li>
+</ol>
+
+<hr>
+
+<h2>📂 Executable Directory Layout</h2>
+<p>Your <code>dist/hacker_chat.dist/</code> folder must strictly match this structure to run:</p>
+
+<pre><code>dist/hacker_chat.dist/
+├── YashvirIntelligence.exe     # Standalone Executable
+├── YashvirIntelligence.gguf    # 🧠 Downloaded from Google Drive
+├── runtime/                    # 📦 Downloaded from Google Drive
+│   ├── llama-server.exe        # Native llama.cpp Server
+│   ├── llama.dll               # Core LLM Engine Library
+│   ├── ggml.dll                # Tensor Library
+│   └── cudart64_13.dll         # NVIDIA CUDA Libraries
+└── ... (Qt & Python Binaries)</code></pre>
 
 <hr>
 
@@ -70,72 +93,20 @@
 
 <hr>
 
-<h2>🛠️ Complete Technical Changelog & Fixes (v1.0)</h2>
+<h2>💻 Compiling from Source (Developers)</h2>
 
-<details>
-  <summary><b>Click to expand full v1.0 engineering details</b></summary>
-  <br>
+<p>If you prefer to modify the code and compile the binary yourself:</p>
 
-  <h3>1. Architecture Overhaul</h3>
-  <ul>
-    <li>Replaced third-party streaming clients with a lightweight, direct HTTP OpenAI-compatible endpoint (<code>http://127.0.0.1:8080/v1/chat/completions</code>).</li>
-    <li>Integrated an <code>asyncio</code> event loop thread runner (<code>AsyncLlamaStreamWorker</code>) with <code>httpx.AsyncClient</code> for low-latency line-by-line SSE token parsing.</li>
-  </ul>
-
-  <h3>2. UI & CSS Engine Fixes</h3>
-  <ul>
-    <li>Resolved string formatting crashes (<code>SyntaxError: f-string: single '}' is not allowed</code>) by escaping QSS and HTML stylesheet blocks (<code>{{ }}</code>).</li>
-    <li>Added a graceful Pygments fallback mechanism in <code>build_document_html()</code> to prevent missing syntax theme crashes (<code>ClassNotFound</code>).</li>
-  </ul>
-
-  <h3>3. Memory & Process Lifecycle Fixes</h3>
-  <ul>
-    <li>Updated process termination from gentle <code>.terminate()</code> to Windows tree-kill (<code>taskkill /F /T /PID</code>). This eliminates orphan <code>llama-server.exe</code> background processes and releases up to ~23 GB of trapped host RAM/VRAM instantly.</li>
-  </ul>
-
-  <h3>4. Build & Nuitka 4.x Production Pipeline</h3>
-  <ul>
-    <li>Built custom <code>NuitkaBuilder.bat</code> with CPU auto-detection (<code>%NUMBER_OF_PROCESSORS%</code>), dynamic <code>.ico</code> fallback engines, auto-download flags, and automated build artifact cleanup (<code>rmdir</code>).</li>
-  </ul>
-</details>
-
-<hr>
-
-<h2>📂 Project Directory Layout</h2>
-
-<pre><code>YashvirIntelligence/
-├── hacker_chat.py              # Main Application Entry Point
-├── YashvirIntelligence.gguf    # Model Weights Binary (Downloaded via Google Drive)
-├── app_icon.ico                # High-Res Multi-Layer Icon
-├── requirements.txt            # Pinned Dependencies
-├── NuitkaBuilder.bat           # Automated Compiler Engine
-└── runtime/                    # Server Binaries (Downloaded via Google Drive)
-    ├── llama-server.exe        # Native llama.cpp Server Executable
-    ├── llama.dll               # Core LLM Engine Library
-    ├── ggml.dll                # Tensor Library
-    └── cudart64_13.dll         # NVIDIA CUDA Runtime Libraries</code></pre>
-
-<hr>
-
-<h2>🛠️ Build Requirements</h2>
-
-<p>Install all required runtime and compilation dependencies before building:</p>
-
-<pre><code>PySide6&gt;=6.6.0
-httpx&gt;=0.25.0
-markdown&gt;=3.5.0
-pygments&gt;=2.17.0
-nuitka&gt;=4.1.3
-pillow&gt;=10.0.0
-pillow-heif&gt;=0.13.0</code></pre>
-
-<hr>
-
-<h2>💻 Compiling to Standalone EXE</h2>
-
-<p>To compile the Python application and bundled runtime environment into a single portable binary <code>YashvirIntelligence.exe</code>, run the batch script from Command Prompt:</p>
-
+<ol>
+  <li>Install dependencies:
+<pre><code>pip install PySide6 httpx markdown pygments nuitka pillow pillow-heif</code></pre>
+  </li>
+  <li>Place your downloaded <code>runtime/</code> folder into the root directory.</li>
+  <li>Run the automated Nuitka build pipeline:
 <pre><code>NuitkaBuilder.bat</code></pre>
+  </li>
+  <li>Copy <code>YashvirIntelligence.gguf</code> into <code>dist/hacker_chat.dist/</code> and launch <code>YashvirIntelligence.exe</code>.</li>
+</ol>
 
 <hr>
 
